@@ -32,7 +32,7 @@ Automated podcast clipper that monitors YouTube, identifies viral moments using 
 
 4. **Run Manually**
    ```bash
-   python src/main.py --url "https://www.youtube.com/watch?v=VIDEO_ID"
+   python -m src.main --url "https://www.youtube.com/watch?v=VIDEO_ID"
    ```
 
 ## 📚 Documentation

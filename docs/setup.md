@@ -28,7 +28,7 @@
 
 ### Locally
 ```bash
-python src/main.py --url "https://www.youtube.com/watch?v=VIDEO_ID"
+python -m src.main --url "https://www.youtube.com/watch?v=VIDEO_ID"
 ```
 
 ### Via GitHub Actions
