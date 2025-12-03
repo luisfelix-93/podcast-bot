@@ -38,8 +38,4 @@ jobs:
         R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
         R2_ENDPOINT_URL: ${{ secrets.R2_ENDPOINT_URL }}
       run: |
-        # Example usage: Process a specific URL or list
-        # For now, we'll use a placeholder or environment variable for the URL list
-        # In a real scenario, this might read from a file or database
-        echo "Starting processing..."
-        # python src/main.py --url "https://www.youtube.com/watch?v=EXAMPLE"
+        python src/main.py --url "https://www.youtube.com/watch?v=7cV72uRyFAg"
