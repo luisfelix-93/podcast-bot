@@ -28,6 +28,10 @@ jobs:
       run: |
         pip install -r requirements.txt
 
+    - name: Create cookies file
+      run: |
+        echo "${{ secrets.YOUTUBE_COOKIES }}" > cookies.txt
+
     - name: Run PodBot
       env:
         DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
@@ -38,4 +42,4 @@ jobs:
         R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
         R2_ENDPOINT_URL: ${{ secrets.R2_ENDPOINT_URL }}
       run: |
-        python -m src.main --url "https://www.youtube.com/watch?v=7cV72uRyFAg"
+        python -m src.main --url "https://www.youtube.com/watch?v=7cV72uRyFAg" --cookies cookies.txt

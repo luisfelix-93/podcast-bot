@@ -22,6 +22,7 @@ def main():
     parser = argparse.ArgumentParser(description="PodBot: Automated Podcast Clipper")
     parser.add_argument("--url", help="YouTube URL to process")
     parser.add_argument("--daily", action="store_true", help="Run daily processing (not implemented yet)")
+    parser.add_argument("--cookies", help="Path to cookies file for YouTube authentication")
     args = parser.parse_args()
 
     if not args.url:
@@ -39,7 +40,7 @@ def main():
         # But for MVP/Test, let's proceed or assume ID is URL hash/ID.
     
     # 2. Download
-    downloader = YouTubeDownloader(output_dir=Config.DOWNLOAD_DIR)
+    downloader = YouTubeDownloader(output_dir=Config.DOWNLOAD_DIR, cookies_path=args.cookies)
     # Get info first to get ID/Title
     info = downloader.get_video_info(url)
     if not info:

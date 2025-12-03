@@ -6,8 +6,9 @@ from typing import Optional
 logger = logging.getLogger(__name__)
 
 class YouTubeDownloader:
-    def __init__(self, output_dir: str = "downloads"):
+    def __init__(self, output_dir: str = "downloads", cookies_path: Optional[str] = None):
         self.output_dir = output_dir
+        self.cookies_path = cookies_path
         os.makedirs(output_dir, exist_ok=True)
 
     def download(self, url: str) -> Optional[str]:
@@ -26,6 +27,9 @@ class YouTubeDownloader:
             'quiet': True,
             'no_warnings': True,
         }
+
+        if self.cookies_path:
+            ydl_opts['cookiefile'] = self.cookies_path
 
         try:
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -53,6 +57,10 @@ class YouTubeDownloader:
             'quiet': True,
             'no_warnings': True,
         }
+        
+        if self.cookies_path:
+            ydl_opts['cookiefile'] = self.cookies_path
+
         try:
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 return ydl.extract_info(url, download=False)
