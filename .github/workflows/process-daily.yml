@@ -1,0 +1,45 @@
+name: Daily Podcast Processing
+
+on:
+  schedule:
+    - cron: '0 2 * * *'  # Run daily at 02:00 UTC
+  workflow_dispatch:      # Allow manual trigger
+
+jobs:
+  process:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y ffmpeg
+
+    - name: Install Python dependencies
+      run: |
+        pip install -r requirements.txt
+
+    - name: Run PodBot
+      env:
+        DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+        TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        R2_ACCESS_KEY: ${{ secrets.R2_ACCESS_KEY }}
+        R2_SECRET_KEY: ${{ secrets.R2_SECRET_KEY }}
+        R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+        R2_ENDPOINT_URL: ${{ secrets.R2_ENDPOINT_URL }}
+      run: |
+        # Example usage: Process a specific URL or list
+        # For now, we'll use a placeholder or environment variable for the URL list
+        # In a real scenario, this might read from a file or database
+        echo "Starting processing..."
+        # python src/main.py --url "https://www.youtube.com/watch?v=EXAMPLE"

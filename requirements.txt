@@ -1,0 +1,11 @@
+yt-dlp
+openai-whisper
+openai
+ffmpeg-python
+pillow
+python-telegram-bot
+flask
+pydantic
+boto3
+pandas
+python-dotenv
