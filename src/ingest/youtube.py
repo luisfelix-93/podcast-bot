@@ -67,3 +67,35 @@ class YouTubeDownloader:
         except Exception as e:
             logger.error(f"Error getting info for {url}: {e}")
             return None
+
+    def get_latest_video_from_channel(self, channel_url: str) -> Optional[str]:
+        """
+        Gets the URL of the latest video from a channel.
+        """
+        ydl_opts = {
+            'quiet': True,
+            'no_warnings': True,
+            'extract_flat': True,
+            'playlistend': 1,
+            'sort': 'date', # Ensure we get the latest
+        }
+
+        if self.cookies_path:
+            ydl_opts['cookiefile'] = self.cookies_path
+
+        try:
+            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                logger.info(f"Fetching latest video from {channel_url}...")
+                info = ydl.extract_info(channel_url, download=False)
+                
+                if 'entries' in info and info['entries']:
+                    latest_video = info['entries'][0]
+                    video_id = latest_video.get('id')
+                    if video_id:
+                        return f"https://www.youtube.com/watch?v={video_id}"
+                
+                logger.error("No videos found in channel.")
+                return None
+        except Exception as e:
+            logger.error(f"Error getting latest video from {channel_url}: {e}")
+            return None

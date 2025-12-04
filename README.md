@@ -25,14 +25,15 @@ Automated podcast clipper that monitors YouTube, identifies viral moments using 
    ```
 
 3. **Configure Secrets**
-   Create a `.env` file (see `docs/setup.md` for details) with your API keys:
-   - `DEEPSEEK_API_KEY`
-   - `TELEGRAM_TOKEN`
-   - `R2_ACCESS_KEY`...
+   Create a `.env` file (see `docs/setup.md` for details) with your API keys and cookies.
 
 4. **Run Manually**
    ```bash
-   python -m src.main --url "https://www.youtube.com/watch?v=VIDEO_ID"
+   # Specific video
+   python -m src.main --url "https://www.youtube.com/watch?v=VIDEO_ID" --cookies cookies.txt
+   
+   # Latest video from channel
+   python -m src.main --channel-url "https://www.youtube.com/@Channel/videos" --cookies cookies.txt
    ```
 
 ## 📚 Documentation

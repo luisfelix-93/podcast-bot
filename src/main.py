@@ -21,15 +21,26 @@ logger = setup_logger()
 def main():
     parser = argparse.ArgumentParser(description="PodBot: Automated Podcast Clipper")
     parser.add_argument("--url", help="YouTube URL to process")
+    parser.add_argument("--channel-url", help="YouTube Channel URL to process latest video")
     parser.add_argument("--daily", action="store_true", help="Run daily processing (not implemented yet)")
     parser.add_argument("--cookies", help="Path to cookies file for YouTube authentication")
     args = parser.parse_args()
 
-    if not args.url:
-        logger.error("Please provide a URL using --url")
-        sys.exit(1)
+    # 2. Download (Initialize early to use for fetching video info/url)
+    downloader = YouTubeDownloader(output_dir=Config.DOWNLOAD_DIR, cookies_path=args.cookies)
 
     url = args.url
+    if not url and args.channel_url:
+        logger.info(f"No specific URL provided. Fetching latest video from channel: {args.channel_url}")
+        url = downloader.get_latest_video_from_channel(args.channel_url)
+        if not url:
+            logger.error("Failed to find latest video from channel.")
+            sys.exit(1)
+        logger.info(f"Found latest video: {url}")
+
+    if not url:
+        logger.error("Please provide a URL using --url or a channel using --channel-url")
+        sys.exit(1)
     
     # 1. Validation
     validator = PodcastValidator()
@@ -40,7 +51,7 @@ def main():
         # But for MVP/Test, let's proceed or assume ID is URL hash/ID.
     
     # 2. Download
-    downloader = YouTubeDownloader(output_dir=Config.DOWNLOAD_DIR, cookies_path=args.cookies)
+    # downloader initialized above
     # Get info first to get ID/Title
     info = downloader.get_video_info(url)
     if not info:

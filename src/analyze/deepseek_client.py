@@ -47,6 +47,11 @@ class DeepSeekClient:
             
             # Parse JSON content
             return json.loads(content)
+        except requests.exceptions.HTTPError as e:
+            logger.error(f"HTTP Error calling DeepSeek API: {e}")
+            if e.response is not None:
+                logger.error(f"Response content: {e.response.text}")
+            raise
         except Exception as e:
             logger.error(f"Error calling DeepSeek API: {e}")
             raise

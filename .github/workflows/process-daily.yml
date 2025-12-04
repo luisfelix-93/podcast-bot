@@ -1,8 +1,8 @@
 name: Daily Podcast Processing
 
 on:
-  schedule:
-    - cron: '0 2 * * *'  # Run daily at 02:00 UTC
+  # schedule:
+  #   - cron: '0 2 * * *'  # Run daily at 02:00 UTC
   workflow_dispatch:      # Allow manual trigger
 
 jobs:
@@ -42,4 +42,4 @@ jobs:
         R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
         R2_ENDPOINT_URL: ${{ secrets.R2_ENDPOINT_URL }}
       run: |
-        python -m src.main --url "https://www.youtube.com/watch?v=7cV72uRyFAg" --cookies cookies.txt
+        python -m src.main --channel-url "${{ secrets.YOUTUBE_CHANNEL_URL }}" --cookies cookies.txt
